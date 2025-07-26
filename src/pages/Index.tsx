@@ -5,9 +5,6 @@ import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import heroImage from '@/assets/hero-travel.jpg';
-import destinationsImage from '@/assets/destinations.jpg';
-import airplaneImage from '@/assets/airplane-interior.jpg';
 
 interface Flight {
   id: string;
@@ -122,22 +119,17 @@ const TravelEase = () => {
   const HomePage = () => (
     <div className="page-transition">
       {/* Hero Section */}
-      <div className="relative h-[60vh] min-h-[500px] overflow-hidden rounded-3xl mb-12">
-        <img 
-          src={heroImage} 
-          alt="Travel Hero" 
-          className="absolute inset-0 w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-primary/70 to-travel-ocean/50" />
+      <div className="relative h-[60vh] min-h-[500px] overflow-hidden rounded-3xl mb-12 bg-gradient-to-br from-blue-500 to-blue-700">
+        <div className="absolute inset-0 bg-gradient-to-r from-primary/70 to-blue-600/50" />
         <div className="relative h-full flex items-center justify-center text-center text-white px-8">
           <div className="max-w-4xl animate-fade-in">
             <h1 className="text-5xl md:text-7xl font-bold mb-6 animate-slide-in-bottom">
               TravelEase
             </h1>
-            <p className="text-xl md:text-2xl mb-8 opacity-90 animate-slide-in-bottom" style={{ animationDelay: '0.2s' }}>
+            <p className="text-xl md:text-2xl mb-8 opacity-90 animate-slide-in-bottom">
               Your Journey Starts Here - Effortless Flight Booking & Secure Payments
             </p>
-            <div className="flex items-center justify-center gap-6 text-sm animate-slide-in-bottom" style={{ animationDelay: '0.4s' }}>
+            <div className="flex items-center justify-center gap-6 text-sm animate-slide-in-bottom">
               <div className="flex items-center gap-2">
                 <Shield className="w-5 h-5" />
                 <span>Secure Payments</span>
@@ -206,7 +198,7 @@ const TravelEase = () => {
       </Card>
 
       {/* Featured Destinations */}
-      <div className="animate-fade-in" style={{ animationDelay: '0.6s' }}>
+      <div className="animate-fade-in">
         <div className="text-center mb-12">
           <h3 className="text-3xl font-bold text-foreground mb-4">Featured Destinations</h3>
           <p className="text-muted-foreground text-lg">Discover amazing places with our specially curated flight offers</p>
@@ -214,15 +206,12 @@ const TravelEase = () => {
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {[
-            { name: 'New York', price: 299, image: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)', description: 'The city that never sleeps' },
-            { name: 'Paris', price: 399, image: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)', description: 'City of love and lights' },
-            { name: 'Tokyo', price: 599, image: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)', description: 'Modern meets traditional' }
+            { name: 'New York', price: 299, description: 'The city that never sleeps', color: 'bg-gradient-to-br from-purple-500 to-blue-600' },
+            { name: 'Paris', price: 399, description: 'City of love and lights', color: 'bg-gradient-to-br from-pink-500 to-red-500' },
+            { name: 'Tokyo', price: 599, description: 'Modern meets traditional', color: 'bg-gradient-to-br from-cyan-500 to-blue-500' }
           ].map((destination, index) => (
-            <Card key={destination.name} className="destination-card animate-float" style={{ animationDelay: `${index * 0.2}s` }}>
-              <div 
-                className="h-32 rounded-lg mb-4" 
-                style={{ background: destination.image }}
-              />
+            <Card key={destination.name} className="destination-card animate-float group" style={{ animationDelay: `${index * 0.2}s` }}>
+              <div className={`h-32 rounded-lg mb-4 ${destination.color}`} />
               <h4 className="text-xl font-bold text-primary mb-2 flex items-center gap-2">
                 <MapPin className="w-5 h-5" />
                 {destination.name}
@@ -311,27 +300,25 @@ const TravelEase = () => {
               {seatClasses.map((seatClass, index) => (
                 <Label 
                   key={seatClass.id}
-                  className="seat-option animate-slide-in-bottom" 
+                  className="seat-option animate-slide-in-bottom flex items-center space-x-3 cursor-pointer" 
                   style={{ animationDelay: `${index * 0.1}s` }}
                 >
-                  <div className="flex items-center space-x-3">
-                    <RadioGroupItem value={seatClass.id} />
-                    <div className="flex-1">
-                      <div className="flex items-center justify-between mb-2">
-                        <span className="text-lg font-semibold">{seatClass.name}</span>
-                        <span className="price-highlight">
-                          ${(selectedFlight?.price || 0) + seatClass.price}
-                        </span>
-                      </div>
-                      <ul className="text-sm text-muted-foreground space-y-1">
-                        {seatClass.features.map((feature, idx) => (
-                          <li key={idx} className="flex items-center gap-2">
-                            <CheckCircle className="w-3 h-3 text-green-500" />
-                            {feature}
-                          </li>
-                        ))}
-                      </ul>
+                  <RadioGroupItem value={seatClass.id} />
+                  <div className="flex-1">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-lg font-semibold">{seatClass.name}</span>
+                      <span className="price-highlight">
+                        ${(selectedFlight?.price || 0) + seatClass.price}
+                      </span>
                     </div>
+                    <ul className="text-sm text-muted-foreground space-y-1">
+                      {seatClass.features.map((feature, idx) => (
+                        <li key={idx} className="flex items-center gap-2">
+                          <CheckCircle className="w-3 h-3 text-green-500" />
+                          {feature}
+                        </li>
+                      ))}
+                    </ul>
                   </div>
                 </Label>
               ))}
@@ -339,11 +326,12 @@ const TravelEase = () => {
           </div>
           
           <div className="animate-scale-in">
-            <img 
-              src={airplaneImage} 
-              alt="Airplane Interior" 
-              className="w-full h-64 object-cover rounded-lg"
-            />
+            <div className="w-full h-64 bg-gradient-to-br from-blue-100 to-blue-200 rounded-lg flex items-center justify-center">
+              <div className="text-center text-blue-600">
+                <Plane className="w-16 h-16 mx-auto mb-4" />
+                <p className="text-lg font-semibold">Airplane Interior</p>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -434,8 +422,8 @@ const TravelEase = () => {
   );
 
   const ConfirmationPage = () => (
-    <div className="fixed inset-0 bg-background/95 backdrop-blur-sm flex items-center justify-center z-50 modal-overlay">
-      <Card className="modal-content max-w-md mx-4 text-center">
+    <div className="fixed inset-0 bg-background/95 backdrop-blur-sm flex items-center justify-center z-50">
+      <Card className="p-8 max-w-md mx-4 text-center animate-scale-in">
         <div className="animate-bounce-subtle">
           <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
         </div>
@@ -474,7 +462,7 @@ const TravelEase = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="header-gradient shadow-strong sticky top-0 z-40">
+      <header className="header-gradient sticky top-0 z-40 shadow-lg">
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div 
