@@ -185,7 +185,7 @@
   }
 
   .destination-card {
-    @apply travel-card p-6 text-center group;
+    @apply travel-card p-6 text-center;
     @apply hover:transform hover:scale-105 cursor-pointer;
   }
 
