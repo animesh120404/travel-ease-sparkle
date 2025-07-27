@@ -12,7 +12,7 @@ interface Flight {
   route: string;
   departure: string;
   arrival: string;
-  price: number;
+  price: number; // Price in INR
   duration: string;
   stops: string;
 }
@@ -20,7 +20,7 @@ interface Flight {
 interface SeatClass {
   id: string;
   name: string;
-  price: number;
+  price: number; // Additional price for seat class in INR
   features: string[];
 }
 
@@ -30,6 +30,8 @@ const TravelEase = () => {
   const [selectedFlight, setSelectedFlight] = useState<Flight | null>(null);
   const [selectedSeatClass, setSelectedSeatClass] = useState<SeatClass | null>(null);
 
+  // Assuming an approximate conversion rate: 1 USD = 83 INR for demonstration
+  // Adjust these prices to your desired INR values
   const flights: Flight[] = [
     {
       id: 'TE101',
@@ -37,7 +39,7 @@ const TravelEase = () => {
       route: 'Delhi (DEL) → Mumbai (BOM)',
       departure: '08:00 AM',
       arrival: '10:00 AM',
-      price: 150,
+      price: 12450, // Was 150 USD, now 150 * 83 = 12450 INR
       duration: '2h 00m',
       stops: 'Non-stop'
     },
@@ -47,7 +49,7 @@ const TravelEase = () => {
       route: 'Delhi (DEL) → Bangalore (BLR)',
       departure: '11:00 AM',
       arrival: '01:30 PM',
-      price: 180,
+      price: 14940, // Was 180 USD, now 180 * 83 = 14940 INR
       duration: '2h 30m',
       stops: 'Non-stop'
     },
@@ -57,12 +59,13 @@ const TravelEase = () => {
       route: 'Delhi (DEL) → Chennai (MAA)',
       departure: '03:00 PM',
       arrival: '05:45 PM',
-      price: 200,
+      price: 16600, // Was 200 USD, now 200 * 83 = 16600 INR
       duration: '2h 45m',
       stops: 'Non-stop'
     }
   ];
 
+  // Seat class prices are additional to the base flight price, also converted to INR
   const seatClasses: SeatClass[] = [
     {
       id: 'economy',
@@ -73,19 +76,19 @@ const TravelEase = () => {
     {
       id: 'economyPlus',
       name: 'Economy Plus',
-      price: 50,
+      price: 4150, // Was 50 USD, now 50 * 83 = 4150 INR
       features: ['Extra legroom', 'Priority boarding', 'Premium meal', 'Entertainment system']
     },
     {
       id: 'business',
       name: 'Business Class',
-      price: 300,
+      price: 24900, // Was 300 USD, now 300 * 83 = 24900 INR
       features: ['Lie-flat seat', 'Priority check-in', 'Gourmet dining', 'Premium entertainment', 'Lounge access']
     },
     {
       id: 'first',
       name: 'First Class',
-      price: 650,
+      price: 53950, // Was 650 USD, now 650 * 83 = 53950 INR
       features: ['Private suite', 'Personal butler', 'Fine dining', 'Premium amenities', 'Luxury lounge access']
     }
   ];
@@ -153,16 +156,16 @@ const TravelEase = () => {
           <h2 className="text-3xl font-bold text-foreground mb-2">Find Your Perfect Flight</h2>
           <p className="text-muted-foreground">Choose your dates and discover amazing destinations</p>
         </div>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto mb-8">
           <div className="space-y-2">
             <Label htmlFor="departure" className="text-sm font-semibold flex items-center gap-2">
               <Calendar className="w-4 h-4 text-primary" />
               Departure Date
             </Label>
-            <Input 
+            <Input
               id="departure"
-              type="date" 
+              type="date"
               className="travel-input"
               value={selectedDates.departure}
               onChange={(e) => setSelectedDates(prev => ({ ...prev, departure: e.target.value }))}
@@ -174,9 +177,9 @@ const TravelEase = () => {
               <Calendar className="w-4 h-4 text-primary" />
               Return Date (Optional)
             </Label>
-            <Input 
+            <Input
               id="return"
-              type="date" 
+              type="date"
               className="travel-input"
               value={selectedDates.return}
               onChange={(e) => setSelectedDates(prev => ({ ...prev, return: e.target.value }))}
@@ -184,10 +187,10 @@ const TravelEase = () => {
             />
           </div>
         </div>
-        
+
         <div className="text-center">
-          <Button 
-            onClick={searchFlights} 
+          <Button
+            onClick={searchFlights}
             className="travel-button-primary text-lg px-8 py-4 animate-pulse-glow"
           >
             <Plane className="w-5 h-5 mr-2" />
@@ -203,12 +206,12 @@ const TravelEase = () => {
           <h3 className="text-3xl font-bold text-foreground mb-4">Featured Destinations</h3>
           <p className="text-muted-foreground text-lg">Discover amazing places with our specially curated flight offers</p>
         </div>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {[
-            { name: 'New York', price: 299, description: 'The city that never sleeps', color: 'bg-gradient-to-br from-purple-500 to-blue-600' },
-            { name: 'Paris', price: 399, description: 'City of love and lights', color: 'bg-gradient-to-br from-pink-500 to-red-500' },
-            { name: 'Tokyo', price: 599, description: 'Modern meets traditional', color: 'bg-gradient-to-br from-cyan-500 to-blue-500' }
+            { name: 'New York', price: 24800, description: 'The city that never sleeps', color: 'bg-gradient-to-br from-purple-500 to-blue-600' }, // 299 USD -> 24817 INR, rounded to 24800
+            { name: 'Paris', price: 33100, description: 'City of love and lights', color: 'bg-gradient-to-br from-pink-500 to-red-500' }, // 399 USD -> 33117 INR, rounded to 33100
+            { name: 'Tokyo', price: 49700, description: 'Modern meets traditional', color: 'bg-gradient-to-br from-cyan-500 to-blue-500' } // 599 USD -> 49717 INR, rounded to 49700
           ].map((destination, index) => (
             <Card key={destination.name} className="destination-card animate-float group" style={{ animationDelay: `${index * 0.2}s` }}>
               <div className={`h-32 rounded-lg mb-4 ${destination.color}`} />
@@ -218,7 +221,7 @@ const TravelEase = () => {
               </h4>
               <p className="text-muted-foreground text-sm mb-3">{destination.description}</p>
               <div className="flex items-center justify-between">
-                <span className="price-highlight">From ${destination.price}</span>
+                <span className="price-highlight">From ₹{destination.price}</span>
                 <span className="text-sm text-muted-foreground">Dates vary</span>
               </div>
             </Card>
@@ -238,8 +241,8 @@ const TravelEase = () => {
               {selectedDates.departure} {selectedDates.return && `to ${selectedDates.return}`}
             </p>
           </div>
-          <Button 
-            variant="outline" 
+          <Button
+            variant="outline"
             onClick={() => setCurrentPage('home')}
             className="travel-button-secondary"
           >
@@ -249,9 +252,9 @@ const TravelEase = () => {
 
         <div className="space-y-6">
           {flights.map((flight, index) => (
-            <Card 
-              key={flight.id} 
-              className="flight-card animate-slide-in-bottom" 
+            <Card
+              key={flight.id}
+              className="flight-card animate-slide-in-bottom"
               style={{ animationDelay: `${index * 0.1}s` }}
               onClick={() => selectFlight(flight)}
             >
@@ -270,7 +273,7 @@ const TravelEase = () => {
                   </div>
                 </div>
                 <div className="text-right">
-                  <div className="price-highlight mb-2">${flight.price}</div>
+                  <div className="price-highlight mb-2">₹{flight.price}</div>
                   <Button className="travel-button-primary">
                     Select Flight
                     <ArrowRight className="w-4 h-4 ml-2" />
@@ -298,9 +301,9 @@ const TravelEase = () => {
           <div className="space-y-4">
             <RadioGroup onValueChange={proceedToPayment}>
               {seatClasses.map((seatClass, index) => (
-                <Label 
+                <Label
                   key={seatClass.id}
-                  className="seat-option animate-slide-in-bottom flex items-center space-x-3 cursor-pointer" 
+                  className="seat-option animate-slide-in-bottom flex items-center space-x-3 cursor-pointer"
                   style={{ animationDelay: `${index * 0.1}s` }}
                 >
                   <RadioGroupItem value={seatClass.id} />
@@ -308,7 +311,7 @@ const TravelEase = () => {
                     <div className="flex items-center justify-between mb-2">
                       <span className="text-lg font-semibold">{seatClass.name}</span>
                       <span className="price-highlight">
-                        ${(selectedFlight?.price || 0) + seatClass.price}
+                        ₹{(selectedFlight?.price || 0) + seatClass.price}
                       </span>
                     </div>
                     <ul className="text-sm text-muted-foreground space-y-1">
@@ -324,7 +327,7 @@ const TravelEase = () => {
               ))}
             </RadioGroup>
           </div>
-          
+
           <div className="animate-scale-in">
             <div className="w-full h-64 bg-gradient-to-br from-blue-100 to-blue-200 rounded-lg flex items-center justify-center">
               <div className="text-center text-blue-600">
@@ -336,8 +339,8 @@ const TravelEase = () => {
         </div>
 
         <div className="text-center">
-          <Button 
-            variant="outline" 
+          <Button
+            variant="outline"
             onClick={() => setCurrentPage('flights')}
             className="travel-button-secondary mr-4"
           >
@@ -356,7 +359,7 @@ const TravelEase = () => {
           <div className="bg-primary/5 rounded-lg p-4 text-left">
             <p className="text-sm text-muted-foreground mb-1">Flight: <span className="font-semibold text-foreground">{selectedFlight?.name}</span></p>
             <p className="text-sm text-muted-foreground mb-1">Seat Class: <span className="font-semibold text-foreground">{selectedSeatClass?.name}</span></p>
-            <p className="text-lg font-bold text-primary">Total: ${(selectedFlight?.price || 0) + (selectedSeatClass?.price || 0)}</p>
+            <p className="text-lg font-bold text-primary">Total: ₹{(selectedFlight?.price || 0) + (selectedSeatClass?.price || 0)}</p>
           </div>
         </div>
 
@@ -371,10 +374,10 @@ const TravelEase = () => {
               <Input id="email" type="email" className="travel-input" placeholder="john@example.com" required />
             </div>
           </div>
-          
+
           <div className="space-y-2">
             <Label htmlFor="phone">Phone Number</Label>
-            <Input id="phone" type="tel" className="travel-input" placeholder="+1 (555) 123-4567" />
+            <Input id="phone" type="tel" className="travel-input" placeholder="+91 98765 43210" /> {/* Changed placeholder for Indian numbers */}
           </div>
 
           <div className="border-t pt-6">
@@ -382,13 +385,13 @@ const TravelEase = () => {
               <CreditCard className="w-5 h-5 text-primary" />
               Payment Information
             </h3>
-            
+
             <div className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="cardNumber">Card Number</Label>
                 <Input id="cardNumber" className="travel-input" placeholder="1234 5678 9012 3456" required />
               </div>
-              
+
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="expiry">Expiry Date</Label>
@@ -403,9 +406,9 @@ const TravelEase = () => {
           </div>
 
           <div className="flex gap-4 pt-6">
-            <Button 
+            <Button
               type="button"
-              variant="outline" 
+              variant="outline"
               onClick={() => setCurrentPage('booking')}
               className="travel-button-secondary flex-1"
             >
@@ -434,7 +437,7 @@ const TravelEase = () => {
         <p className="text-sm text-muted-foreground mb-8">
           A confirmation email has been sent to your provided address.
         </p>
-        <Button 
+        <Button
           onClick={() => {
             setCurrentPage('home');
             setSelectedFlight(null);
@@ -465,7 +468,7 @@ const TravelEase = () => {
       <header className="header-gradient sticky top-0 z-40 shadow-lg">
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
-            <div 
+            <div
               className="flex items-center gap-3 cursor-pointer"
               onClick={() => setCurrentPage('home')}
             >
